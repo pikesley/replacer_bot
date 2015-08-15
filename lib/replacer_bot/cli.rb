@@ -11,9 +11,7 @@ module ReplacerBot
     desc 'tweet', 'find, munge and send tweets'
     def tweet
       r = Replacer.new
-      r.search
       r.tweet
-      r.save
     end
   end
 end

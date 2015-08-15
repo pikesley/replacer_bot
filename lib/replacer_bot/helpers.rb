@@ -5,8 +5,6 @@ module ReplacerBot
 
   def self.last_tweet
     begin
-#require 'pry'
-#      binding.pry
       Marshal.load File.read Config.instance.config.save_file
     rescue ArgumentError
       0

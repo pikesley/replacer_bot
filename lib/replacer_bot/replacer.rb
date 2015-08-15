@@ -25,11 +25,15 @@ module ReplacerBot
         puts "Sleeping #{@config.interval} seconds"
         sleep @config.interval
       end
+
+      save
     end
 
     def save
-      File.open @config.save_file, 'w' do |file|
-        Marshal.dump search.last.id, file
+      if search.first
+        File.open @config.save_file, 'w' do |file|
+          Marshal.dump search.first.id, file
+        end
       end
     end
   end
