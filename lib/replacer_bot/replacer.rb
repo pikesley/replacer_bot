@@ -9,27 +9,13 @@ module ReplacerBot
     end
 
     def search count = 20
-      results = @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
-
-      results = ReplacerBot.filter results
-      results = ReplacerBot.uniq results
-
-      results = ReplacerBot.subtract seen_tweets, results
-  #    @all_results = ReplacerBot.combine seen_tweets, results
-
-      @results = Set.new results
-    end
-
-    def seen_tweets
-      @seen_tweets ||= begin
-        Marshal.load File.read @config.save_file
-      rescue Errno::ENOENT
-        Set.new
+      @results ||= begin
+        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
       end
     end
 
     def tweets
-      @results.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
+      search.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
     end
 
     def tweet
@@ -39,12 +25,15 @@ module ReplacerBot
         puts "Sleeping #{@config.interval} seconds"
         sleep @config.interval
       end
+
+      save
     end
 
     def save
-      File.open @config.save_file, 'w' do |file|
-#        Marshal.dump @all_results, file
-        Marshal.dump Set.new(@results.map { |result| result.text }), file
+      if search.first
+        File.open @config.save_file, 'w' do |file|
+          Marshal.dump search.first.id, file
+        end
       end
     end
   end
