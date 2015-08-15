@@ -11,12 +11,11 @@ module ReplacerBot
     def search count = 20
       @results ||= begin
         results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
-        results.select { |r| r.id > last_tweet }
       end
     end
 
     def tweets
-      @results.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
+      search.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
     end
 
     def tweet
@@ -25,14 +24,6 @@ module ReplacerBot
         @client.update tweet
         puts "Sleeping #{@config.interval} seconds"
         sleep @config.interval
-      end
-    end
-
-    def last_tweet
-      begin
-        Marshal.load File.read @config.save_file
-      rescue Errno::ENOENT
-        0
       end
     end
 

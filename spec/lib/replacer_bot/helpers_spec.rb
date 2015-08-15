@@ -6,6 +6,20 @@ module ReplacerBot
       end
     end
 
+    context 'last tweet' do
+      it 'gets a default value for the last tweet' do
+        expect(ReplacerBot.last_tweet).to eq 0
+      end
+
+      it 'knows the ID of the last tweet' do
+        File.open 'last.tweet', 'w' do |f|
+          Marshal.dump 632586894455500800, f
+        end
+        expect(ReplacerBot.last_tweet).to eq 632586894455500800
+        FileUtils.rm 'last.tweet'
+      end
+    end
+
     context 'filtering' do
       it 'validates liberally' do
         expect(ReplacerBot.validate 'opendata hulk', 'open data').to eq true
@@ -25,7 +39,7 @@ module ReplacerBot
       end
       it 'filters direct replies' do
         expect(ReplacerBot.validate '@abc This is a reply about Open Data').to eq false
-      end  
+      end
     end
 
     context 'search and replace' do

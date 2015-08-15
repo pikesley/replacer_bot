@@ -3,6 +3,18 @@ module ReplacerBot
     URI.encode "\"#{term}\""
   end
 
+  def self.last_tweet
+    begin
+#require 'pry'
+#      binding.pry
+      Marshal.load File.read Config.instance.config.save_file
+    rescue ArgumentError
+      0
+    rescue Errno::ENOENT
+      0
+    end
+  end
+
   def self.validate string, term = Config.instance.config.search_term, ignore_spaces = true
     return false if string[0...2] == 'RT'
     return false if string[0] == '@'
@@ -14,7 +26,8 @@ module ReplacerBot
   end
 
   def self.filter list
-    list.select { |i| self.validate i.text, Config.instance.config.search_term }
+    list.select { |i| self.validate i.text, Config.instance.config.search_term }.
+      select { |i| i.id > self.last_tweet}
   end
 
   def self.dehash word

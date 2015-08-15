@@ -1,5 +1,9 @@
 module ReplacerBot
   describe Replacer do
+    before :all do
+      FileUtils.rm_f 'last.tweet'
+    end
+
     context 'search' do
       let(:replacer) { described_class.new }
 
@@ -17,26 +21,14 @@ module ReplacerBot
       end
     end
 
-    context 'save and retrieve' do
+    context 'save last tweet' do
       let(:replacer) { described_class.new }
 
       it 'saves the ID of the last tweet', :vcr do
         replacer.save
         expect(File).to exist 'last.tweet'
 
-        expect(Marshal.load File.read 'last.tweet').to eq 632586894455500800
-        FileUtils.rm 'last.tweet'
-      end
-
-      it 'gets a default value for the last tweet', :vcr do
-        expect(replacer.last_tweet).to eq 0
-      end
-
-      it 'knows the ID of the last tweet', :vcr do
-        File.open 'last.tweet', 'w' do |f|
-          Marshal.dump 632586894455500800, f
-        end
-        expect(replacer.last_tweet).to eq 632586894455500800
+        expect(Marshal.load File.read 'last.tweet').to eq 632600268568436737
         FileUtils.rm 'last.tweet'
       end
     end
@@ -50,18 +42,19 @@ module ReplacerBot
         end
 
         expect(replacer.search.count).to eq 2
+        FileUtils.rm 'last.tweet'
       end
     end
 
-    context 'tweet' do
-      let(:replacer) { described_class.new }
-
-      it 'prepares sensible tweets', :vcr do
-        replacer.search
-        expect(replacer.tweets).to be_a Array
-        expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
-        expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
-      end
-    end
+###    context 'tweet' do
+###      let(:replacer) { described_class.new }
+###
+###      it 'prepares sensible tweets', :vcr do
+###        replacer.search
+###        expect(replacer.tweets).to be_a Array
+###        expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
+###        expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
+###      end
+###    end
   end
 end
