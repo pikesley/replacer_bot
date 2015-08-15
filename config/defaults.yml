@@ -3,4 +3,4 @@ save_file: last.tweet
 replacements:
   - open data: Taylor Swift
   - opendata: TaylorSwift
-interval: 1 #seconds
+interval: 60 #seconds
