@@ -9,15 +9,10 @@ module ReplacerBot
     end
 
     def search count = 20
-      results = @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
-
-      results = ReplacerBot.filter results
-      results = ReplacerBot.uniq results
-
-      results = ReplacerBot.subtract seen_tweets, results
-  #    @all_results = ReplacerBot.combine seen_tweets, results
-
-      @results = Set.new results
+      @results ||= begin
+        results = @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
+        ReplacerBot.filter results
+      end
     end
 
     def seen_tweets
