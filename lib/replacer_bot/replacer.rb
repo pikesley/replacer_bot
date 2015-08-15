@@ -10,7 +10,7 @@ module ReplacerBot
 
     def search #count = 20
       @results ||= begin
-        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(@config.search_count)
+        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(@config.search_count), @config.ignore_spaces
       end
     end
 
