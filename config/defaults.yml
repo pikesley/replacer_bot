@@ -1,4 +1,6 @@
 search_term: open data
+search_count: 100
+ignore_spaces: true
 save_file: last.tweet
 replacements:
   - open data: Taylor Swift

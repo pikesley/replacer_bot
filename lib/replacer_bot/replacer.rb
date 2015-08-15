@@ -8,9 +8,9 @@ module ReplacerBot
       @client = TwitterClient.client
     end
 
-    def search count = 20
+    def search #count = 20
       @results ||= begin
-        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
+        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(@config.search_count), @config.ignore_spaces
       end
     end
 
@@ -19,11 +19,13 @@ module ReplacerBot
     end
 
     def tweet
-      tweets.each do |tweet|
+      tweets.each_with_index do |tweet, index|
         puts "Tweeting: #{tweet}"
         @client.update tweet
-        puts "Sleeping #{@config.interval} seconds"
-        sleep @config.interval
+        unless index == tweets.count - 1
+          puts "Sleeping #{@config.interval} seconds"
+          sleep @config.interval
+        end
       end
 
       save
@@ -31,7 +33,7 @@ module ReplacerBot
 
     def save
       if search.first
-        
+
         File.open @config.save_file, 'w' do |file|
           Marshal.dump search.first.id, file
         end

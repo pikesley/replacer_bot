@@ -63,6 +63,7 @@ module ReplacerBot
       it 'prepares sensible tweets', :vcr do
         expect(replacer.tweets).to be_a Array
         expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
+        expect(replacer.tweets[27]).to eq 'CompTIA_SLED: RT CADeptTech: Building a User-Centric #California #Government through Demand-Driven #TaylorSwift http://t.co/mh91wbk4xK ---…'
         expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
       end
     end

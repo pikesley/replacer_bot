@@ -23,8 +23,8 @@ module ReplacerBot
     false
   end
 
-  def self.filter list
-    list.select { |i| self.validate i.text, Config.instance.config.search_term }.
+  def self.filter list, ignore_spaces = true
+    list.select { |i| self.validate i.text, Config.instance.config.search_term, ignore_spaces }.
       select { |i| i.id > self.last_tweet}
   end
 
