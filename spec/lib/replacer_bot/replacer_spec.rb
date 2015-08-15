@@ -4,22 +4,18 @@ module ReplacerBot
       let(:replacer) { described_class.new }
 
       it 'searches for tweets', :vcr do
-      #  replacer.search
         expect(replacer.search.class).to eq Array
       end
 
       it 'finds tweets', :vcr do
-        replacer.search
-        expect(replacer.results.first.class).to eq Twitter::Tweet
+        expect(replacer.search.first.class).to eq Twitter::Tweet
       end
 
       it 'finds the correct tweets', :vcr do
-        replacer.search
-        expect(replacer.results.first.text).to match /open ?data/i
-        expect(replacer.results.all? { |tweet| tweet.text.match /open ?data/i }).to eq true
+        expect(replacer.search.first.text).to match /open ?data/i
+        expect(replacer.search.all? { |tweet| tweet.text.match /open ?data/i }).to eq true
       end
     end
-
 
     context 'only find new tweets' do
     end
