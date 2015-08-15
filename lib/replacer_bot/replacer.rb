@@ -8,9 +8,9 @@ module ReplacerBot
       @client = TwitterClient.client
     end
 
-    def search count = 20
+    def search #count = 20
       @results ||= begin
-        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
+        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(@config.search_count)
       end
     end
 
@@ -31,7 +31,7 @@ module ReplacerBot
 
     def save
       if search.first
-        
+
         File.open @config.save_file, 'w' do |file|
           Marshal.dump search.first.id, file
         end
