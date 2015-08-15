@@ -1,31 +1,7 @@
-# ReplacerBot
-
-TODO: Write a gem description
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'replacer_bot'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install replacer_bot
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/replacer_bot/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+[![Build Status](http://img.shields.io/travis/pikesley/replacer_bot.svg)](https://travis-ci.org/pikesley/replacer_bot)
+[![Dependency Status](http://img.shields.io/gemnasium/pikesley/replacer_bot.svg)](https://gemnasium.com/pikesley/replacer_bot)
+[![Coverage Status](http://img.shields.io/coveralls/pikesley/replacer_bot.svg)](https://coveralls.io/r/pikesley/replacer_bot)
+[![Code Climate](http://img.shields.io/codeclimate/github/pikesley/replacer_bot.svg)](https://codeclimate.com/github/pikesley/replacer_bot)
+[![Gem Version](http://img.shields.io/gem/v/replacer_bot.svg)](https://rubygems.org/gems/replacer_bot)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://pikesley.mit-license.org)
+[![Badges](http://img.shields.io/:badges-7/7-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
