@@ -19,11 +19,13 @@ module ReplacerBot
     end
 
     def tweet
-      tweets.each do |tweet|
+      tweets.each_with_index do |tweet, index|
         puts "Tweeting: #{tweet}"
         @client.update tweet
-        puts "Sleeping #{@config.interval} seconds"
-        sleep @config.interval
+        unless index == tweets.count - 1
+          puts "Sleeping #{@config.interval} seconds"
+          sleep @config.interval
+        end
       end
 
       save
