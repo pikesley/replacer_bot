@@ -21,7 +21,23 @@ The default config is [here](https://github.com/pikesley/replacer_bot/blob/maste
     search_term: David Cameron
     replacements:
       - david cameron: "Satan's Little Helper"
-      - cameron: satan
+      - cameron: Satan
     save_file: /Users/sam/.replacer_bot/last.tweet
 
-You'll also need some Twitter credentials, store them in 
+You'll also need some Twitter credentials, store them in `~/.replacer_botrc` like this:
+
+    CONSUMER_KEY: some_key
+    CONSUMER_SECRET: some_secret
+    TOKEN: oauth_token
+    SECRET: oauth_secret
+
+(and see [this](http://dghubble.com/blog/posts/twitter-app-write-access-and-bots/) for help on setting up Twitter bots)
+
+## Running it
+
+You should now be able to do run it like so:
+
+    ➔ replacer tweet
+    Tweeting: Satan's Little Helper sets out academy 'vision' for every school http://t.co/S6yFWRf7pD
+    Sleeping 60 seconds
+    Tweeting: Swarm warning: Satan's Little Helper accuses migrants of 'breaking in' to UK http://t.co/1sB5J8Alwi
