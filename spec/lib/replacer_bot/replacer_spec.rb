@@ -17,7 +17,40 @@ module ReplacerBot
       end
     end
 
-    context 'only find new tweets' do
+    context 'save and retrieve' do
+      let(:replacer) { described_class.new }
+
+      it 'saves the ID of the last tweet', :vcr do
+        replacer.save
+        expect(File).to exist 'last.tweet'
+
+        expect(Marshal.load File.read 'last.tweet').to eq 632586894455500800
+        FileUtils.rm 'last.tweet'
+      end
+
+      it 'gets a default value for the last tweet', :vcr do
+        expect(replacer.last_tweet).to eq 0
+      end
+
+      it 'knows the ID of the last tweet', :vcr do
+        File.open 'last.tweet', 'w' do |f|
+          Marshal.dump 632586894455500800, f
+        end
+        expect(replacer.last_tweet).to eq 632586894455500800
+        FileUtils.rm 'last.tweet'
+      end
+    end
+
+    context 'only find new tweets', :vcr do
+      let(:replacer) { described_class.new }
+
+      it 'finds newer tweets', :vcr do
+        File.open 'last.tweet', 'w' do |f|
+          Marshal.dump 632591313607589889, f
+        end
+
+        expect(replacer.search.count).to eq 2
+      end
     end
 
     context 'tweet' do

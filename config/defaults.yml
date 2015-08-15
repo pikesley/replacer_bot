@@ -1,5 +1,5 @@
 search_term: open data
-save_file: saved.tweets
+save_file: last.tweet
 replacements:
   - open data: Taylor Swift
   - opendata: TaylorSwift

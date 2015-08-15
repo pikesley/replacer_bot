@@ -10,16 +10,8 @@ module ReplacerBot
 
     def search count = 20
       @results ||= begin
-        results = @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
-        ReplacerBot.filter results
-      end
-    end
-
-    def seen_tweets
-      @seen_tweets ||= begin
-        Marshal.load File.read @config.save_file
-      rescue Errno::ENOENT
-        Set.new
+        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(count)
+        results.select { |r| r.id > last_tweet }
       end
     end
 
@@ -36,10 +28,17 @@ module ReplacerBot
       end
     end
 
+    def last_tweet
+      begin
+        Marshal.load File.read @config.save_file
+      rescue Errno::ENOENT
+        0
+      end
+    end
+
     def save
       File.open @config.save_file, 'w' do |file|
-#        Marshal.dump @all_results, file
-        Marshal.dump Set.new(@results.map { |result| result.text }), file
+        Marshal.dump search.last.id, file
       end
     end
   end
