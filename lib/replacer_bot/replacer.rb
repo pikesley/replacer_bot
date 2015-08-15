@@ -31,6 +31,7 @@ module ReplacerBot
 
     def save
       if search.first
+        
         File.open @config.save_file, 'w' do |file|
           Marshal.dump search.first.id, file
         end
