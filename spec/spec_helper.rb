@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'replacer_bot'
 require_relative 'support/vcr_setup'
 
