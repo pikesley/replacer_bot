@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ReplacerBot::VERSION
   spec.authors       = ['pikesley']
   spec.email         = ['github@orgraphone.org']
-  spec.summary       = %q{Taylor Swift}
-  spec.description   = %q{Taylor Swift}
+  spec.summary       = %q{Search, mangle and tweet}
+  spec.description   = %q{Search Twitter for a phrase, search-and-replace phrases in the tweets, tweet them}
   spec.homepage      = ''
   spec.license       = 'MIT'
 
