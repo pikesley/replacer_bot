@@ -74,7 +74,7 @@ module ReplacerBot
 
       it 'sends no tweets on a dry-run', :vcr do
         expect(replacer.client).to_not(receive(:update))
-        replacer.tweet dry_run = true
+        replacer.tweet dry_run: true
       end
     end
   end

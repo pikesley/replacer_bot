@@ -18,13 +18,13 @@ module ReplacerBot
       search.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
     end
 
-    def tweet dry_run = false
+    def tweet dry_run: false, chatty: false
       tweets.each_with_index do |tweet, index|
-        puts "Tweeting: #{tweet}"
+        puts "Tweeting: #{tweet}" if chatty
         @client.update tweet unless dry_run
         unless dry_run
           unless index == tweets.count - 1
-            puts "Sleeping #{@config.interval} seconds"
+            puts "Sleeping #{@config.interval} seconds" if chatty
             sleep @config.interval
           end
         end
