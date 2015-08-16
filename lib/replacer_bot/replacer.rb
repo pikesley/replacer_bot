@@ -1,6 +1,6 @@
 module ReplacerBot
   class Replacer
-    attr_reader :results, :config
+    attr_reader :results, :config, :client
 
     def initialize
       @config = Config.instance.config
@@ -18,17 +18,19 @@ module ReplacerBot
       search.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
     end
 
-    def tweet
+    def tweet dry_run: false, chatty: false
       tweets.each_with_index do |tweet, index|
-        puts "Tweeting: #{tweet}"
-        @client.update tweet
-        unless index == tweets.count - 1
-          puts "Sleeping #{@config.interval} seconds"
-          sleep @config.interval
+        puts "Tweeting: #{tweet}" if chatty
+        @client.update tweet unless dry_run
+        unless dry_run
+          unless index == tweets.count - 1
+            puts "Sleeping #{@config.interval} seconds" if chatty
+            sleep @config.interval
+          end
         end
       end
 
-      save
+      save unless dry_run
     end
 
     def save
