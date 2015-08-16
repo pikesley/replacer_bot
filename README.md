@@ -14,9 +14,20 @@ Twitter bot that:
 * Search-and-replaces phrases in the tweets
 * Tweets them
 
+## Installation
+
+    gem install replacer_bot
+
+or
+
+    git clone https://github.com/pikesley/replacer_bot
+    cd replacer_bot
+    bundle
+    rake install
+
 ## Configuration
 
-The default config is [here](https://github.com/pikesley/replacer_bot/blob/master/config/defaults.yml), you'll want to create your own config at `~/.replacer_bot/config.yml`, something like:
+The default config is [here](https://github.com/pikesley/replacer_bot/blob/master/config/defaults.yml), you'll want to create your own config at `~/.replacer_bot/config.yml` to override come of these, something like:
 
     search_term: David Cameron
     replacements:
