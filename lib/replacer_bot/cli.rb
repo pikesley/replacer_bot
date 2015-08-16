@@ -13,5 +13,11 @@ module ReplacerBot
       r = Replacer.new
       r.tweet
     end
+
+    desc 'dry_run', "find, munge but don't actually send tweets"
+    def dry_run
+      r = Replacer.new
+      r.tweet dry_run = true
+    end
   end
 end

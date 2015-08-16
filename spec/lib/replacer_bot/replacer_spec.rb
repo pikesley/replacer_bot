@@ -1,6 +1,6 @@
 module ReplacerBot
   describe Replacer do
-    before :all do
+    after :each do
       FileUtils.rm_f 'last.tweet'
     end
 
@@ -29,7 +29,6 @@ module ReplacerBot
         expect(File).to exist 'last.tweet'
 
         expect(Marshal.load File.read 'last.tweet').to eq 632605951594524672
-        FileUtils.rm 'last.tweet'
       end
 
       it 'only saves if there is something to save', :vcr do
@@ -40,7 +39,6 @@ module ReplacerBot
         replacer.save
 
         expect(Marshal.load File.read 'last.tweet').to eq 732591313607589889
-        FileUtils.rm 'last.tweet'
       end
     end
 
@@ -53,7 +51,6 @@ module ReplacerBot
         end
 
         expect(replacer.search.count).to eq 2
-        FileUtils.rm 'last.tweet'
       end
     end
 
@@ -65,6 +62,19 @@ module ReplacerBot
         expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
         expect(replacer.tweets[27]).to eq 'CompTIA_SLED: RT CADeptTech: Building a User-Centric #California #Government through Demand-Driven #TaylorSwift http://t.co/mh91wbk4xK ---…'
         expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
+      end
+
+      it 'actually sends tweets', :vcr do
+        expect(replacer.client).to(receive(:update)).exactly(21).times
+        interval = replacer.config.interval
+        replacer.config.interval = 0
+        replacer.tweet
+        replacer.config.interval = interval
+      end
+
+      it 'sends no tweets on a dry-run', :vcr do
+        expect(replacer.client).to_not(receive(:update))
+        replacer.tweet dry_run = true
       end
     end
   end
