@@ -110,6 +110,10 @@ module ReplacerBot
           expect(ReplacerBot.nuke_hashtags '#This #will go away #but then #also #these').
             to eq 'go away #but then'
         end
+
+        it 'returns nothing if all it gets is hashtags' do
+          expect(ReplacerBot.nuke_hashtags '#nothing #but #hashtags').to eq ''
+        end
       end
     end
   end
