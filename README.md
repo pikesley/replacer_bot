@@ -35,9 +35,10 @@ The default config is [here](https://github.com/pikesley/replacer_bot/blob/maste
       - cameron: Satan
     save_file: /Users/sam/.replacer_bot/last.tweet
 
-Note:
+Notes:
 
 * The search-and-replace terms will be applied in the order listed, which you may or may not care about
+* The search part of the search-and-replace is case-insensitive
 
 You'll also need some Twitter credentials, store them in `~/.replacer_botrc` like this:
 
@@ -57,4 +58,12 @@ You should now be able to do run it like so:
     Sleeping 60 seconds
     Tweeting: Swarm warning: Satan's Little Helper accuses migrants of 'breaking in' to UK http://t.co/1sB5J8Alwi
 
-There's also a `dry_run` command, which shows you what it would have tweeted
+Notes:
+
+* Direct replies and manual retweets are excluded
+
+There's also
+
+    `replacer dry_run`
+
+which does the search and shows what it would have tweeted, without actually tweeting anything
