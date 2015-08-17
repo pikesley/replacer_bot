@@ -1,5 +1,5 @@
 module ReplacerBot
-  def self.encode term
+  def self.encode term:
     URI.encode "\"#{term}\""
   end
 
@@ -13,7 +13,7 @@ module ReplacerBot
     end
   end
 
-  def self.validate string, term = Config.instance.config.search_term, ignore_spaces = true
+  def self.validate string:, term: Config.instance.config.search_term, ignore_spaces: true
     return false if string[0...2] == 'RT'
     return false if string[0] == '@'
 
@@ -23,8 +23,8 @@ module ReplacerBot
     false
   end
 
-  def self.filter list, ignore_spaces = true
-    list.select { |i| self.validate i.text, Config.instance.config.search_term, ignore_spaces }.
+  def self.filter list:, ignore_spaces: true
+    list.select { |i| self.validate string: i.text, term: Config.instance.config.search_term, ignore_spaces: ignore_spaces }.
       select { |i| i.id > self.last_tweet}
   end
 
@@ -76,7 +76,7 @@ module ReplacerBot
     ]
   end
 
-  def self.replace string, subs = Config.instance.config.replacements
+  def self.replace string:, subs: Config.instance.config.replacements
     # Something about a frozen string
     our_string = string.dup
     subs.each do |substitute|

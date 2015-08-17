@@ -10,12 +10,12 @@ module ReplacerBot
 
     def search #count = 20
       @results ||= begin
-        results = ReplacerBot.filter @client.search(ReplacerBot.encode(@search_term), result_type: 'recent').take(@config.search_count), @config.ignore_spaces
+        results = ReplacerBot.filter list: @client.search(ReplacerBot.encode(term: @search_term), result_type: 'recent').take(@config.search_count), ignore_spaces: @config.ignore_spaces
       end
     end
 
     def tweets
-      search.map { |r| ReplacerBot.truncate ReplacerBot.replace r.text }
+      search.map { |r| ReplacerBot.truncate ReplacerBot.replace string: r.text }
     end
 
     def tweet dry_run: false, chatty: false

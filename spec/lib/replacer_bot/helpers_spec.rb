@@ -2,7 +2,7 @@ module ReplacerBot
   describe 'Helpers' do
     context 'URLs' do
       it 'URL-encodes a search term' do
-        expect(ReplacerBot.encode 'open data').to eq '%22open%20data%22'
+        expect(ReplacerBot.encode term: 'open data').to eq '%22open%20data%22'
       end
     end
 
@@ -22,23 +22,23 @@ module ReplacerBot
 
     context 'filtering' do
       it 'validates liberally' do
-        expect(ReplacerBot.validate 'opendata hulk', 'open data').to eq true
+        expect(ReplacerBot.validate string: 'opendata hulk', term: 'open data').to eq true
       end
 
       it 'validates more strictly' do
-        expect(ReplacerBot.validate 'open data ftw', 'open data', ignore_spaces = false).to eq true
-        expect(ReplacerBot.validate 'i love opendata', 'open data', ignore_spaces = false).to eq false
+        expect(ReplacerBot.validate string: 'open data ftw', term: 'open data', ignore_spaces: false).to eq true
+        expect(ReplacerBot.validate string: 'i love opendata', term: 'open data', ignore_spaces: false).to eq false
       end
 
       it 'validates away rubbish' do
-        expect(ReplacerBot.validate 'incredible hulk', 'open data').to eq false
+        expect(ReplacerBot.validate string: 'incredible hulk', term: 'open data').to eq false
       end
 
       it 'filters retweets' do
-        expect(ReplacerBot.validate 'RT @xyz This is about Open Data').to eq false
+        expect(ReplacerBot.validate string: 'RT @xyz This is about Open Data').to eq false
       end
       it 'filters direct replies' do
-        expect(ReplacerBot.validate '@abc This is a reply about Open Data').to eq false
+        expect(ReplacerBot.validate string: '@abc This is a reply about Open Data').to eq false
       end
     end
 
@@ -60,8 +60,8 @@ module ReplacerBot
       end
 
       it 'replaces text' do
-        expect(ReplacerBot.replace 'Something about Open Data goes here').to eq 'Something about Taylor Swift goes here'
-        expect(ReplacerBot.replace 'Something about #opendata http://foo.bar/').to eq 'Something about #TaylorSwift http://foo.bar/'
+        expect(ReplacerBot.replace string: 'Something about Open Data goes here').to eq 'Something about Taylor Swift goes here'
+        expect(ReplacerBot.replace string: 'Something about #opendata http://foo.bar/').to eq 'Something about #TaylorSwift http://foo.bar/'
       end
 
       it 'does a/an correctly' do
@@ -80,8 +80,8 @@ module ReplacerBot
       end
 
       it 'uses the correct article in replacements' do
-        expect(ReplacerBot.replace 'This is an Open Data tweet').to eq 'This is a Taylor Swift tweet'
-        expect(ReplacerBot.replace 'This is an Open Data tweet about an #opendata story').to eq 'This is a Taylor Swift tweet about a #TaylorSwift story'
+        expect(ReplacerBot.replace string: 'This is an Open Data tweet').to eq 'This is a Taylor Swift tweet'
+        expect(ReplacerBot.replace string: 'This is an Open Data tweet about an #opendata story').to eq 'This is a Taylor Swift tweet about a #TaylorSwift story'
       end
     end
   end
