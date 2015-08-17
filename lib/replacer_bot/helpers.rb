@@ -11,9 +11,10 @@ module ReplacerBot
     word[0] == '#'
   end
 
-  def self.hashtag_nuker list
+  def self.hashtag_nuker list:, reverse: false
     not_hashtag_seen = false
     a = []
+    list.reverse! if reverse
     list.each do |token|
       unless is_hashtag token
         not_hashtag_seen = true
@@ -27,15 +28,13 @@ module ReplacerBot
   end
 
   def self.nuke_hashtags string
-    b = string.split ' '
-    c = hashtag_nuker b.reverse
-    string = c.reverse.join ' '
-
-    b = string.split ' '
-    c = hashtag_nuker b
-    string = c.join ' '
-
-    string
+    (hashtag_nuker list:
+      (hashtag_nuker list:
+        string.split(' '), reverse: true
+      ).
+      reverse.join(' ').
+      split(' ')
+    ).join(' ')
   end
 
   def self.last_tweet
