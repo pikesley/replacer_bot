@@ -83,6 +83,29 @@ module ReplacerBot
         expect(ReplacerBot.replace string: 'This is an Open Data tweet').to eq 'This is a Taylor Swift tweet'
         expect(ReplacerBot.replace string: 'This is an Open Data tweet about an #opendata story').to eq 'This is a Taylor Swift tweet about a #TaylorSwift story'
       end
+
+      context 'sanitise' do
+        it 'blanks out URLs' do
+          expect(ReplacerBot.clean_urls 'Some text with http://foo.bar/ in it').to eq 'Some text with __URL__ in it'
+          expect(ReplacerBot.clean_urls 'Other text with https://foo.bar/?123 and http://example.com/derp#fragment in it').to eq 'Other text with __URL__ and __URL__ in it'
+          expect(ReplacerBot.clean_urls 'Some text without any URLs in it').to eq 'Some text without any URLs in it'
+        end
+
+        it 'recognises a hashtag' do
+          expect(ReplacerBot.is_hashtag '#hashtag').to eq true
+          expect(ReplacerBot.is_hashtag 'not_hashtag').to eq false
+        end
+
+        it 'removes hashtags from the end of text' do
+          expect(ReplacerBot.nuke_hashtags 'Text finishing with a #hashtag').to eq 'Text finishing with a'
+          expect(ReplacerBot.nuke_hashtags 'This embedded #hashtag should survive but not this one #spurious').
+          to eq 'This embedded #hashtag should survive but not this one'
+        end
+
+        it 'removes hashtags from the beginning of text' do
+          expect(ReplacerBot.nuke_hashtags '#Beginning hashtag should go away').to eq 'hashtag should go away'
+        end
+      end
     end
   end
 end

@@ -3,6 +3,53 @@ module ReplacerBot
     URI.encode "\"#{term}\""
   end
 
+  def self.clean_urls string
+    string.gsub /https?:\/\/[^ ]*/, '__URL__'
+  end
+
+  def self.is_hashtag word
+    word[0] == '#'
+  end
+
+  def self.nuke_end_hashtags string
+    not_hashtag_seen = false
+    b = string.split ' '
+    a = []
+    b.reverse.each do |token|
+      unless is_hashtag token
+        not_hashtag_seen = true
+      end
+      if not_hashtag_seen
+        a.unshift token
+      end
+    end
+
+    a.join ' '
+  end
+
+  def self.nuke_start_hashtags string
+    not_hashtag_seen = false
+    b = string.split
+    a = []
+    b.each do |token|
+      unless is_hashtag token
+        not_hashtag_seen = true
+      end
+      if not_hashtag_seen
+        a.push token
+      end
+    end
+
+    a.join ' '
+  end
+
+  def self.nuke_hashtags string
+    string = nuke_start_hashtags string
+    string = nuke_end_hashtags string
+
+    string
+  end
+
   def self.last_tweet
     begin
       Marshal.load File.read Config.instance.config.save_file
@@ -29,7 +76,7 @@ module ReplacerBot
   end
 
   def self.dehash word
-    if word[0] == '#'
+    if is_hashtag word
       return word[1..-1]
     end
 
