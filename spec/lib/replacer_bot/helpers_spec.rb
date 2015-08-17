@@ -105,6 +105,11 @@ module ReplacerBot
         it 'removes hashtags from the beginning of text' do
           expect(ReplacerBot.nuke_hashtags '#Beginning hashtag should go away').to eq 'hashtag should go away'
         end
+
+        it 'strips hashtags at either end but leaves embedded ones' do
+          expect(ReplacerBot.nuke_hashtags '#This #will go away #but then #also #these').
+            to eq 'go away #but then'
+        end
       end
     end
   end

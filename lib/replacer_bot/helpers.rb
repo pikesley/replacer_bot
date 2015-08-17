@@ -30,11 +30,21 @@ module ReplacerBot
   def self.nuke_hashtags string
     (hashtag_nuker list:
       (hashtag_nuker list:
-        string.split(' '), reverse: true
+        string.split(
+          ' '
+        ),
+        reverse: true
       ).
-      reverse.join(' ').
-      split(' ')
-    ).join(' ')
+      reverse.join(
+        ' '
+      ).
+      split(
+        ' '
+      )
+    ).
+    join(
+      ' '
+    )
   end
 
   def self.last_tweet
