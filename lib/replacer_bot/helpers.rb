@@ -11,27 +11,10 @@ module ReplacerBot
     word[0] == '#'
   end
 
-  def self.nuke_end_hashtags string
+  def self.hashtag_nuker list
     not_hashtag_seen = false
-    b = string.split ' '
     a = []
-    b.reverse.each do |token|
-      unless is_hashtag token
-        not_hashtag_seen = true
-      end
-      if not_hashtag_seen
-        a.unshift token
-      end
-    end
-
-    a.join ' '
-  end
-
-  def self.nuke_start_hashtags string
-    not_hashtag_seen = false
-    b = string.split
-    a = []
-    b.each do |token|
+    list.each do |token|
       unless is_hashtag token
         not_hashtag_seen = true
       end
@@ -40,12 +23,17 @@ module ReplacerBot
       end
     end
 
-    a.join ' '
+    a
   end
 
   def self.nuke_hashtags string
-    string = nuke_start_hashtags string
-    string = nuke_end_hashtags string
+    b = string.split ' '
+    c = hashtag_nuker b.reverse
+    string = c.reverse.join ' '
+
+    b = string.split ' '
+    c = hashtag_nuker b
+    string = c.join ' '
 
     string
   end
