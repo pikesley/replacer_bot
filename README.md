@@ -51,7 +51,7 @@ You'll also need some Twitter credentials, store them in `~/.replacer_botrc` lik
 
 ## Running it
 
-You should now be able to do run it like so:
+You should now be able to run it like so:
 
     ➔ replacer tweet
     Tweeting: Satan's Little Helper sets out academy 'vision' for every school http://t.co/S6yFWRf7pD
@@ -64,6 +64,6 @@ Notes:
 
 There's also
 
-    `replacer dry_run`
+    ➔ replacer dry_run
 
 which does the search and shows what it would have tweeted, without actually tweeting anything
