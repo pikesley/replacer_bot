@@ -22,7 +22,7 @@ module ReplacerBot
     return false if string[0] == '@'
 
     term = term.gsub ' ', ' ?' if ignore_spaces
-    return true if string.index /#{term}/i
+    return true if string.index(/#{term}/i) && SeenTweets.validate(string)
 
     false
   end

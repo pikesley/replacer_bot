@@ -1,5 +1,10 @@
 module ReplacerBot
   describe 'Helpers' do
+    after :each do
+      FileUtils.rm_f Config.instance.config.save_file
+      FileUtils.rm_f Config.instance.config.seen_tweets
+    end
+
     context 'URLs' do
       it 'URL-encodes a search term' do
         expect(ReplacerBot.encode term: 'open data').to eq '%22open%20data%22'

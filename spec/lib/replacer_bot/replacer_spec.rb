@@ -1,7 +1,8 @@
 module ReplacerBot
   describe Replacer do
     after :each do
-      FileUtils.rm_f 'last.tweet'
+      FileUtils.rm_f Config.instance.config.save_file
+      FileUtils.rm_f Config.instance.config.seen_tweets
     end
 
     context 'search' do
@@ -60,12 +61,12 @@ module ReplacerBot
       it 'prepares sensible tweets', :vcr do
         expect(replacer.tweets).to be_a Array
         expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
-        expect(replacer.tweets[27]).to eq 'CompTIA_SLED: RT CADeptTech: Building a User-Centric #California #Government through Demand-Driven #TaylorSwift http://t.co/mh91wbk4xK ---…'
+        expect(replacer.tweets[10]).to eq 'Lovely: "Does Taylor Swift Build Trust?" by @denicewross https://t.co/zcuOX6O8pA'
         expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
       end
 
       it 'actually sends tweets', :vcr do
-        expect(replacer.client).to(receive(:update)).exactly(21).times
+        expect(replacer.client).to(receive(:update)).exactly(18).times
         interval = replacer.config.interval
         replacer.config.interval = 0
         replacer.tweet
