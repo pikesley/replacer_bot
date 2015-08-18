@@ -3,37 +3,8 @@ module ReplacerBot
     URI.encode "\"#{term}\""
   end
 
-  def self.clean_urls string
-    string.gsub /https?:\/\/[^ ]*/, '__URL__'
-  end
-
   def self.is_hashtag word
     word[0] == '#'
-  end
-
-  def self.hashtag_nuker string:, other_end: false
-    words = string.split ' '
-    words.reverse! if other_end
-
-    no_hashtag_yet = false
-
-    a = []
-    words.each do |token|
-      unless is_hashtag token
-        no_hashtag_yet = true
-      end
-
-      if no_hashtag_yet
-        a.push token
-      end
-    end
-
-    a.reverse! if other_end
-    a.join ' '
-  end
-
-  def self.nuke_hashtags string
-    hashtag_nuker string: (hashtag_nuker string: string, other_end: true)
   end
 
   def self.last_tweet
