@@ -55,6 +55,15 @@ module ReplacerBot
       end
     end
 
+    context 'filtering on similar tweets' do
+      let(:replacer) { described_class.new }
+
+      it 'filters similar tweets', :vcr do
+        SeenTweets.validate 'How open data can help save lives http://t.co/90U7bVq5UF'
+        expect(replacer.tweets.count).to eq 19
+      end
+    end
+
     context 'tweet' do
       let(:replacer) { described_class.new }
 
