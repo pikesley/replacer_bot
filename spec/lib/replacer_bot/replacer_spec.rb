@@ -60,7 +60,7 @@ module ReplacerBot
 
       it 'filters similar tweets', :vcr do
         SeenTweets.validate 'How open data can help save lives http://t.co/90U7bVq5UF'
-        expect(replacer.tweets.count).to eq 19
+        expect(replacer.tweets.count).to eq 17
       end
     end
 
@@ -75,7 +75,7 @@ module ReplacerBot
       end
 
       it 'actually sends tweets', :vcr do
-        expect(replacer.client).to(receive(:update)).exactly(18).times
+        expect(replacer.client).to(receive(:update)).exactly(16).times
         interval = replacer.config.interval
         replacer.config.interval = 0
         replacer.tweet

@@ -3,14 +3,24 @@ module ReplacerBot
     def self.validate tweet
       archive = retrieve
       t = sanitise tweet
-      valid = not(archive.include? t)
+      valid = not(archive.include? t) && not(similar_to_archive tweet, archive)
       archive.add t
       save archive
 
       valid
     end
 
-    def self.similar tweet, other_tweet, weighting: 6
+    def self.similar_to_archive tweet, archive
+      match = false
+
+      archive.each do |archived_tweet|
+        match = true if similar(tweet, archived_tweet)
+      end
+
+      match
+    end
+
+    def self.similar tweet, other_tweet, weighting: Config.instance.config.similarity_weighting
       tweet_words = tweet.split ' '
       return false if tweet_words.count < weighting
 
@@ -18,7 +28,6 @@ module ReplacerBot
 
       (tweet_words.count - (weighting - 1)).times do |i|
         sample = tweet_words[i, weighting].join(' ').downcase
-#require 'pry' ; binding.pry
         match = true if sanitise(other_tweet.downcase).index sanitise(sample)
       end
 
