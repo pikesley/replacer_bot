@@ -60,7 +60,7 @@ module ReplacerBot
 
       it 'filters similar tweets', :vcr do
         SeenTweets.validate 'How open data can help save lives http://t.co/90U7bVq5UF'
-        expect(replacer.tweets.count).to eq 17
+        expect(replacer.tweets.count).to eq 16
       end
     end
 

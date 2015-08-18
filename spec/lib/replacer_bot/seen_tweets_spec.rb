@@ -85,13 +85,14 @@ module ReplacerBot
     end
 
     context 'overlap of words' do
-      it 'does not match on tweets with fewer than 6 words' do
-        expect(described_class.similar 'This appears to match', 'You would think this appears to match').to eq false
+      # n is set in the default config, a lower value makes the bot less noisy at the risk of false negatives
+      it 'does not match on tweets with fewer than n words' do
+        expect(described_class.similar 'appears to match', 'You would think this appears to match').to eq false
       end
 
-      it 'sees tweets which overlap by at least 6 words as similar' do
+      it 'sees tweets which overlap by at least n words as similar' do
         expect(described_class.similar 'This is a string of words', 'Also this is a string of words innit').to eq true
-        expect(described_class.similar 'This is a string of words', 'Also this is a string of similar words innit').to eq false
+        expect(described_class.similar 'This is a string of words', 'Also this is a similar string similar words innit').to eq false
         expect(described_class.similar 'This one will be a definite match ', 'So this one will be a definite match no doubt').to eq true
       end
 
