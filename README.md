@@ -13,7 +13,7 @@ Twitter bot that:
 * Searches Twitter for a phrase
 * Search-and-replaces phrases in the tweets
 * Tweets them
-* Makes a note of the last tweet we found so we start there next time
+* Makes a note of the last tweet found so it knows where to start from next time
 
 ## Installation
 
