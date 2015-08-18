@@ -84,6 +84,29 @@ module ReplacerBot
       ]
     end
 
+    context 'overlap of words' do
+      it 'does not match on tweets with fewer than 6 words' do
+        expect(described_class.similar 'This appears to match', 'You would think this appears to match').to eq false
+      end
+
+      it 'sees tweets which overlap by at least 6 words as similar' do
+        expect(described_class.similar 'This is a string of words', 'Also this is a string of words innit').to eq true
+        expect(described_class.similar 'This is a string of words', 'Also this is a string of similar words innit').to eq false
+        expect(described_class.similar 'This one will be a definite match ', 'So this one will be a definite match no doubt').to eq true
+      end
+
+      it 'deals sensibly with URLs and hashtags' do
+        expect(described_class.similar 'This one has a http://taylor.swift in it', 'So this one has a http://other.url/ in it here').to eq true
+      end
+
+      it 'works on real-world data' do
+        expect(described_class.
+        similar 'Netflix Releases Taylor Swift-Fetching Developer Preview: Netflix has released a developer preview of its in-house… bit.ly/1JfRdgA',
+          'Netflix Releases Taylor Swift-Fetching Developer Preview - Netflix has released a developer preview of its in-house d...'
+        ).to eq true
+      end
+    end
+
     it 'saves a set' do
       set = Set.new [1, 2, 3]
       described_class.save set

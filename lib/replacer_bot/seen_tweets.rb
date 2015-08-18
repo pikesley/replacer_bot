@@ -10,6 +10,21 @@ module ReplacerBot
       valid
     end
 
+    def self.similar tweet, other_tweet, weighting: 6
+      tweet_words = tweet.split ' '
+      return false if tweet_words.count < weighting
+
+      match = false
+
+      (tweet_words.count - (weighting - 1)).times do |i|
+        sample = tweet_words[i, weighting].join(' ').downcase
+#require 'pry' ; binding.pry
+        match = true if sanitise(other_tweet.downcase).index sanitise(sample)
+      end
+
+      match
+    end
+
     def self.retrieve
       begin
         Marshal.load File.open Config.instance.config.seen_tweets
