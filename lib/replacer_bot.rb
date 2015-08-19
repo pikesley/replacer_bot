@@ -4,6 +4,7 @@ require 'uri'
 require 'singleton'
 require 'thor'
 require 'yaml'
+require 'htmlentities'
 
 require 'replacer_bot/version'
 require 'replacer_bot/replacer'
