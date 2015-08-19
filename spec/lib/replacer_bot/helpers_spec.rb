@@ -5,6 +5,17 @@ module ReplacerBot
       FileUtils.rm_f Config.instance.config.seen_tweets
     end
 
+    it 'recognises a hashtag' do
+      expect(ReplacerBot.is_hashtag '#hashtag').to eq true
+      expect(ReplacerBot.is_hashtag 'not_hashtag').to eq false
+    end
+
+    it 'encodes HTML entities' do
+      expect(ReplacerBot.encode_entities 'This has a &amp; in it').to eq 'This has a & in it'
+      expect(ReplacerBot.encode_entities 'This has no entities that need coding & ting').
+        to eq 'This has no entities that need coding & ting'
+    end
+
     context 'URLs' do
       it 'URL-encodes a search term' do
         expect(ReplacerBot.encode term: 'open data').to eq '%22open%20data%22'
@@ -87,11 +98,6 @@ module ReplacerBot
       it 'uses the correct article in replacements' do
         expect(ReplacerBot.replace string: 'This is an Open Data tweet').to eq 'This is a Taylor Swift tweet'
         expect(ReplacerBot.replace string: 'This is an Open Data tweet about an #opendata story').to eq 'This is a Taylor Swift tweet about a #TaylorSwift story'
-      end
-
-      it 'recognises a hashtag' do
-        expect(ReplacerBot.is_hashtag '#hashtag').to eq true
-        expect(ReplacerBot.is_hashtag 'not_hashtag').to eq false
       end
     end
   end

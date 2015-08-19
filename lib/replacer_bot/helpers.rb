@@ -7,6 +7,11 @@ module ReplacerBot
     word[0] == '#'
   end
 
+  def self.encode_entities string
+    coder = HTMLEntities.new
+    coder.decode string
+  end
+
   def self.last_tweet
     begin
       Marshal.load File.read Config.instance.config.save_file
