@@ -22,8 +22,6 @@ module ReplacerBot
       tweets.each_with_index do |tweet, index|
         send_tweet content: tweet, pause: index != tweets.count - 1, dry_run: dry_run, chatty: chatty
       end
-
-      save unless dry_run
     end
 
     def send_tweet content:, pause: true, dry_run: false, chatty: false
@@ -34,6 +32,8 @@ module ReplacerBot
           puts "Sleeping #{@config.interval} seconds" if chatty
           sleep @config.interval
         end
+
+        save unless dry_run
       end
     end
 

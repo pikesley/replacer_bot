@@ -22,6 +22,18 @@ module ReplacerBot
       end
     end
 
+    context 'save ID after each tweet' do
+      let(:replacer) { described_class.new }
+
+      it 'saves the ID of the just-sent tweet', :vcr do
+        replacer.search
+        replacer
+        expect(File).to exist 'last.tweet'
+
+        expect(Marshal.load File.read 'last.tweet').to eq 632605951594524672
+      end
+    end
+
     context 'save last tweet' do
       let(:replacer) { described_class.new }
 
