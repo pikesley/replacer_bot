@@ -8,6 +8,14 @@ module ReplacerBot
       @user = data.user
     end
 
+    def sanitised
+      @sanitised ||= 
+    end
+
+    def replaced
+      @replaced ||= ReplacerBot.truncate ReplacerBot.encode_entities ReplacerBot.replace string: @text
+    end
+
     def save path
       File.open path, 'w' do |f|
         Marshal.dump self, f

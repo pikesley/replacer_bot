@@ -34,5 +34,16 @@ module ReplacerBot
         expect(m.id).to eq 634432215196135425
       end
     end
+
+    it 'gets sanitized correctly', :vcr do
+      expect(t.sanitised).to eq 'will be accepted and not feared! Scotland gives it a push. #DigitalTransformation __URL__'
+    end
+
+    context 'search-and-replace' do
+      it 'gets mangled correctly', :vcr do
+        expect(t.replaced).to eq '#TaylorSwift will be accepted and not feared! Scotland gives it a push. #DigitalTransformation http://t.co/eyDgDNjDtz'
+
+      end
+    end
   end
 end
