@@ -9,7 +9,7 @@ module ReplacerBot
     end
 
     def sanitised
-      @sanitised ||= 
+      @sanitised ||= ReplacerBot.sanitise @text
     end
 
     def replaced

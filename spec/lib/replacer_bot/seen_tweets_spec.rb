@@ -4,37 +4,7 @@ module ReplacerBot
       FileUtils.rm_f Config.instance.config.seen_tweets
     end
 
-    context 'sanitise' do
-      it 'blanks out URLs' do
-        expect(described_class.clean_urls 'Some text with http://foo.bar/ in it').to eq 'Some text with __URL__ in it'
-        expect(described_class.clean_urls 'Other text with https://foo.bar/?123 and http://example.com/derp#fragment in it').to eq 'Other text with __URL__ and __URL__ in it'
-        expect(described_class.clean_urls 'Some text without any URLs in it').to eq 'Some text without any URLs in it'
-      end
 
-      it 'removes hashtags from the end of text' do
-        expect(described_class.nuke_hashtags 'Text finishing with a #hashtag').to eq 'Text finishing with a'
-        expect(described_class.nuke_hashtags 'This embedded #hashtag should survive but not this one #spurious').
-        to eq 'This embedded #hashtag should survive but not this one'
-      end
-
-      it 'removes hashtags from the beginning of text' do
-        expect(described_class.nuke_hashtags '#Beginning hashtag should go away').to eq 'hashtag should go away'
-      end
-
-      it 'strips hashtags at either end but leaves embedded ones' do
-        expect(described_class.nuke_hashtags '#This #will go away #but then #also #these').
-          to eq 'go away #but then'
-      end
-
-      it 'returns nothing if all it gets is hashtags' do
-        expect(described_class.nuke_hashtags '#nothing #but #hashtags').to eq ''
-      end
-
-      it 'sanitises tweets' do
-        expect(described_class.sanitise '#Hashtag at the start with http://derp.com/thing #this and also #these').
-          to eq 'at the start with __URL__ #this and also'
-      end
-    end
 
     it 'validates the first tweet' do
       expect(described_class.validate 'This is a tweet').to eq true
