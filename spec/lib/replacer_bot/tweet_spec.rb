@@ -37,7 +37,8 @@ module Twitter
       end
 
       it 'tweets itself', :vcr do
-        
+      #  expect(ReplacerBot::TwitterClient.instance.client).to(receive(:update))
+        t.tweet
       end
     end
   end

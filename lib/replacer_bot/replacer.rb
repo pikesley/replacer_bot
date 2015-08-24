@@ -5,7 +5,7 @@ module ReplacerBot
     def initialize
       @config = Config.instance.config
       @search_term = @config.search_term
-      @client = TwitterClient.client
+      @client = TwitterClient.instance.client
     end
 
     def search #count = 20

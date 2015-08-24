@@ -8,6 +8,10 @@ module Twitter
       @replaced ||= ReplacerBot.replacify text
     end
 
+    def tweet
+      ReplacerBot::TwitterClient.instance.client.update replaced
+    end
+
     def save path: ReplacerBot::Config.instance.config.save_file
       File.open path, 'w' do |f|
         Marshal.dump self, f
