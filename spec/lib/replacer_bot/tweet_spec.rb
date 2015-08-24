@@ -1,10 +1,5 @@
 module Twitter
   describe Tweet do
-    after :each do
-    #  FileUtils.rm_f 'seen.tweets'
-    #  FileUtils.rm_f 'saved.tweet'
-    end
-
     let :t do
       r = ReplacerBot::Replacer.new.search.first
     end
@@ -39,6 +34,10 @@ module Twitter
         expect(m.id).to eq 635821849419517952
         expect(m.sanitised).to eq 'How #OpenData Can Help Save Lives __URL__ by @EllieRoss102 via @guardian'
         expect(m.replaced).to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
+      end
+
+      it 'tweets itself', :vcr do
+        
       end
     end
   end

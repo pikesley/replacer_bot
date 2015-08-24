@@ -1,6 +1,8 @@
 module ReplacerBot
   class TwitterClient
-    def self.client
+    include Singleton
+
+    def client
       config = {
         consumer_key:        ENV['CONSUMER_KEY'],
         consumer_secret:     ENV['CONSUMER_SECRET'],
