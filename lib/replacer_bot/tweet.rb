@@ -1,22 +1,14 @@
-module ReplacerBot
+module Twitter
   class Tweet
-    attr_reader :text, :id, :user
-
-    def initialize data
-      @text = data.text
-      @id = data.id
-      @user = data.user
-    end
-
     def sanitised
-      @sanitised ||= ReplacerBot.sanitise @text
+      @sanitised ||= ReplacerBot.sanitise text
     end
 
     def replaced
-      @replaced ||= ReplacerBot.truncate ReplacerBot.encode_entities ReplacerBot.replace string: @text
+      @replaced ||= ReplacerBot.replacify text
     end
 
-    def save path
+    def save path: ReplacerBot::Config.instance.config.save_file
       File.open path, 'w' do |f|
         Marshal.dump self, f
       end

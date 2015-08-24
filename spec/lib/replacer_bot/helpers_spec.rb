@@ -29,7 +29,9 @@ module ReplacerBot
 
       it 'knows the ID of the last tweet' do
         File.open 'last.tweet', 'w' do |f|
-          Marshal.dump 632586894455500800, f
+          o = OpenStruct.new
+          o.id = 632586894455500800
+          Marshal.dump o, f
         end
         expect(ReplacerBot.last_tweet).to eq 632586894455500800
         FileUtils.rm 'last.tweet'
@@ -125,6 +127,11 @@ module ReplacerBot
               {'an #open data' => 'a #Taylor Swift'}
             ]
           )
+      end
+
+      it 'does a full replace' do
+        expect(ReplacerBot.replacify 'How #OpenData Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian').
+          to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
       end
 
       it 'uses the correct article in replacements' do

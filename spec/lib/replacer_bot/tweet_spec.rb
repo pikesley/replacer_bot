@@ -1,48 +1,44 @@
-module ReplacerBot
+module Twitter
   describe Tweet do
     after :each do
-      FileUtils.rm_f 'seen.tweets'
-      FileUtils.rm_f 'saved.tweet'
+    #  FileUtils.rm_f 'seen.tweets'
+    #  FileUtils.rm_f 'saved.tweet'
     end
 
     let :t do
-      r = Replacer.new
-      Tweet.new r.search.first
+      r = ReplacerBot::Replacer.new.search.first
     end
 
     it 'has standard tweet stuff', :vcr do
-      expect(t.text).to eq '#OpenData will be accepted and not feared! Scotland gives it a push. #DigitalTransformation http://t.co/eyDgDNjDtz'
-      expect(t.id).to eq 634432215196135425
-      expect(t.user.id).to eq 861512810
-    end
-
-    context 'save' do
-      before :each do
-        t.save 'saved.tweet'
-      end
-
-      after :each do
-        FileUtils.rm_f 'saved.tweet'
-      end
-
-      it 'saves to file', :vcr do
-        expect(File).to exist 'saved.tweet'
-      end
-
-      it 'saves the correct stuff', :vcr do
-        m = Marshal.load File.read 'saved.tweet'
-        expect(m.id).to eq 634432215196135425
-      end
+      expect(t.text).to eq 'How #OpenData Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
+      expect(t.id).to eq 635821849419517952
+      expect(t.user.id).to eq 22164685
     end
 
     it 'gets sanitized correctly', :vcr do
-      expect(t.sanitised).to eq 'will be accepted and not feared! Scotland gives it a push. #DigitalTransformation __URL__'
+      expect(t.sanitised).to eq 'How #OpenData Can Help Save Lives __URL__ by @EllieRoss102 via @guardian'
     end
 
-    context 'search-and-replace' do
-      it 'gets mangled correctly', :vcr do
-        expect(t.replaced).to eq '#TaylorSwift will be accepted and not feared! Scotland gives it a push. #DigitalTransformation http://t.co/eyDgDNjDtz'
+    it 'gets search-and-replaced correctly', :vcr do
+      expect(t.replaced).to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
+    end
 
+    context 'save' do
+      after :each do
+        FileUtils.rm_f 'last.tweet'
+      end
+
+      it 'saves to file', :vcr do
+        t.save
+        expect(File).to exist 'last.tweet'
+      end
+
+      it 'saves the correct stuff', :vcr do
+        t.save
+        m = Marshal.load File.read 'last.tweet'
+        expect(m.id).to eq 635821849419517952
+        expect(m.sanitised).to eq 'How #OpenData Can Help Save Lives __URL__ by @EllieRoss102 via @guardian'
+        expect(m.replaced).to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
       end
     end
   end

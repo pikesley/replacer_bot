@@ -14,7 +14,7 @@ module ReplacerBot
 
   def self.last_tweet
     begin
-      Marshal.load File.read Config.instance.config.save_file
+      (Marshal.load File.read Config.instance.config.save_file).id
     rescue ArgumentError
       0
     rescue Errno::ENOENT
@@ -131,5 +131,9 @@ module ReplacerBot
     end
 
     our_string
+  end
+
+  def self.replacify string
+    truncate encode_entities replace string: string
   end
 end
