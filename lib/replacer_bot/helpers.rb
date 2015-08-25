@@ -108,7 +108,7 @@ module ReplacerBot
   end
 
   def self.sanitise tweet
-    nuke_hashtags clean_urls tweet
+    nuke_hashtags clean_urls encode_entities tweet
   end
 
   def self.replacement_extender replacement

@@ -8,6 +8,10 @@ module Twitter
       @replaced ||= ReplacerBot.replacify text
     end
 
+    def valid
+      true
+    end
+
     def tweet
       ReplacerBot::TwitterClient.instance.client.update replaced
     end
