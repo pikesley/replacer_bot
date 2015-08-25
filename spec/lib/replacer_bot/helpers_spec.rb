@@ -87,6 +87,12 @@ module ReplacerBot
         expect(ReplacerBot.contains_term 'i love opendata', 'open data', ignore_spaces: false).to eq false
       end
 
+      it 'rejects over-long tweets' do
+        expect(ReplacerBot.too_long 'This one is fine').to eq false
+        expect(ReplacerBot.too_long 'This tweet goes over 140 characters abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz').
+          to eq true
+      end
+
       it 'validates liberally' do
         expect(ReplacerBot.validate 'opendata hulk', term: 'open data').to eq true
       end

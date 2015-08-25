@@ -9,7 +9,7 @@ module Twitter
     end
 
     def valid
-      ReplacerBot.validate text
+      ReplacerBot.validate(text) || ReplacerBot.too_long(replaced) # if Config.instance.config.reject_long_tweets
     end
 
     def tweet

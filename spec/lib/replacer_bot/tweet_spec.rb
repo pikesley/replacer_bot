@@ -40,12 +40,14 @@ module Twitter
     context 'validity' do
       let :r do
         r = ReplacerBot::Searcher.results
+    #    r.each_with_index { |t, i| puts "#{i}: #{t.text}, #{t.text.length}" }
       end
 
       it 'knows if it is valid', :vcr do
         expect(r.first.valid).to be true
         expect(r[1].valid).to be false
         expect(r[22].valid).to be false
+        expect(r[87].valid).to be false
       end
     end
 

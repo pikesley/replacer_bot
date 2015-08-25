@@ -30,6 +30,10 @@ module ReplacerBot
     string.index('@') == 0
   end
 
+  def self.too_long string
+    string.length > TWITTER_LIMIT
+  end
+
   def self.contains_term string, term, ignore_spaces: true
     term = term.gsub ' ', ' ?' if ignore_spaces
     string.index(/#{term}/i) && true || false
