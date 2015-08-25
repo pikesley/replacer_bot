@@ -22,9 +22,22 @@ module ReplacerBot
     end
   end
 
+  def self.is_retweet string
+      string.index('RT') == 0
+  end
+
+  def self.is_reply string
+    string.index('@') == 0
+  end
+
+  def self.contains_term string, term, ignore_spaces: true
+    term = term.gsub ' ', ' ?' if ignore_spaces
+    string.index(/#{term}/i) && true || false
+  end
+
   def self.validate string:, term: Config.instance.config.search_term, ignore_spaces: true
-    return false if string[0...2] == 'RT'
-    return false if string[0] == '@'
+    return false if is_retweet(string)
+    return false if is_reply(string)
 
     term = term.gsub ' ', ' ?' if ignore_spaces
     return true if string.index(/#{term}/i)

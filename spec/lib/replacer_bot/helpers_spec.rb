@@ -71,6 +71,22 @@ module ReplacerBot
     end
 
     context 'filtering' do
+      it 'recognises retweets' do
+        expect(ReplacerBot.is_retweet 'RT this is a retweet').to eq true
+        expect(ReplacerBot.is_retweet 'This is just a tweet').to eq false
+      end
+
+      it 'recognises direct replies' do
+        expect(ReplacerBot.is_reply '@derp hello').to eq true
+        expect(ReplacerBot.is_reply 'Just a tweet').to eq false
+      end
+
+      it 'knows if the string contains the search term' do
+        expect(ReplacerBot.contains_term 'opendata hulk', 'open data').to eq true
+        expect(ReplacerBot.contains_term 'open data ftw', 'open data', ignore_spaces: false).to eq true
+        expect(ReplacerBot.contains_term 'i love opendata', 'open data', ignore_spaces: false).to eq false
+      end
+
       it 'validates liberally' do
         expect(ReplacerBot.validate string: 'opendata hulk', term: 'open data').to eq true
       end
