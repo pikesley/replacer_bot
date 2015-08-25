@@ -18,6 +18,8 @@ module Twitter
       expect(t.replaced).to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
     end
 
+    it 'knows if it is valid'
+
     context 'save' do
       after :each do
         FileUtils.rm_f 'last.tweet'
@@ -35,11 +37,11 @@ module Twitter
         expect(m.sanitised).to eq 'How #OpenData Can Help Save Lives __URL__ by @EllieRoss102 via @guardian'
         expect(m.replaced).to eq 'How #TaylorSwift Can Help Save Lives http://t.co/lkCrPdb8nn by @EllieRoss102 via @guardian'
       end
+    end
 
-      it 'tweets itself', :vcr do
-      #  expect(ReplacerBot::TwitterClient.instance.client).to(receive(:update))
-        t.tweet
-      end
+    it 'tweets itself', :vcr do
+    #  expect(ReplacerBot::TwitterClient.instance.client).to(receive(:update))
+      t.tweet
     end
   end
 end

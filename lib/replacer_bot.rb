@@ -12,6 +12,7 @@ require 'replacer_bot/config'
 require 'replacer_bot/helpers'
 require 'replacer_bot/seen_tweets'
 require 'replacer_bot/tweet'
+require 'replacer_bot/searcher'
 require 'replacer_bot/twitter_client'
 
 Dotenv.load
