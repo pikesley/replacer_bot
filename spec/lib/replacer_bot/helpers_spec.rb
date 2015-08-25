@@ -88,23 +88,23 @@ module ReplacerBot
       end
 
       it 'validates liberally' do
-        expect(ReplacerBot.validate string: 'opendata hulk', term: 'open data').to eq true
+        expect(ReplacerBot.validate 'opendata hulk', term: 'open data').to eq true
       end
 
       it 'validates more strictly' do
-        expect(ReplacerBot.validate string: 'open data ftw', term: 'open data', ignore_spaces: false).to eq true
-        expect(ReplacerBot.validate string: 'i love opendata', term: 'open data', ignore_spaces: false).to eq false
+        expect(ReplacerBot.validate 'open data ftw', term: 'open data', ignore_spaces: false).to eq true
+        expect(ReplacerBot.validate 'i love opendata', term: 'open data', ignore_spaces: false).to eq false
       end
 
       it 'validates away rubbish' do
-        expect(ReplacerBot.validate string: 'incredible hulk', term: 'open data').to eq false
+        expect(ReplacerBot.validate 'incredible hulk', term: 'open data').to eq false
       end
 
       it 'filters retweets' do
-        expect(ReplacerBot.validate string: 'RT @xyz This is about Open Data').to eq false
+        expect(ReplacerBot.validate 'RT @xyz This is about Open Data').to eq false
       end
       it 'filters direct replies' do
-        expect(ReplacerBot.validate string: '@abc This is a reply about Open Data').to eq false
+        expect(ReplacerBot.validate '@abc This is a reply about Open Data').to eq false
       end
     end
 

@@ -9,7 +9,7 @@ module Twitter
     end
 
     def valid
-      ReplacerBot.validate string: text
+      ReplacerBot.validate text
     end
 
     def tweet

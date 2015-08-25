@@ -23,7 +23,7 @@ module ReplacerBot
   end
 
   def self.is_retweet string
-      string.index('RT') == 0
+    string.index('RT') == 0
   end
 
   def self.is_reply string
@@ -35,7 +35,7 @@ module ReplacerBot
     string.index(/#{term}/i) && true || false
   end
 
-  def self.validate string:, term: Config.instance.config.search_term, ignore_spaces: true
+  def self.validate string, term: Config.instance.config.search_term, ignore_spaces: true
     return false if is_retweet(string)
     return false if is_reply(string)
 
