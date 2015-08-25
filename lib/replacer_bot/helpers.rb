@@ -39,8 +39,7 @@ module ReplacerBot
     return false if is_retweet(string)
     return false if is_reply(string)
 
-    term = term.gsub ' ', ' ?' if ignore_spaces
-    return true if string.index(/#{term}/i)
+    return true if contains_term(string, term, ignore_spaces: ignore_spaces)
 
     false
   end

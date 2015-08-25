@@ -44,7 +44,8 @@ module Twitter
 
       it 'knows if it is valid', :vcr do
         expect(r.first.valid).to be true
-        expect(r.first.valid).to be false
+        expect(r[1].valid).to be false
+        expect(r[22].valid).to be false
       end
     end
 
