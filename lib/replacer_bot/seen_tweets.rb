@@ -1,10 +1,10 @@
 module ReplacerBot
   class SeenTweets
     def self.validate tweet
+      require 'pry' ; binding.pry
       archive = retrieve
-      t = sanitise tweet
-      valid = not(archive.include? t) && not(similar_to_archive tweet, archive)
-      archive.add t
+      valid = not(archive.include? tweet.sanitised) #&& not(similar_to_archive tweet, archive)
+      archive.add tweet.sanitised
       save archive
 
       valid
@@ -41,8 +41,6 @@ module ReplacerBot
         Set.new
       end
     end
-
-
 
     def self.save set
       File.open Config.instance.config.seen_tweets, 'w' do |file|
