@@ -15,7 +15,7 @@ module ReplacerBot
     end
 
     def tweets
-      search.map { |r| ReplacerBot.truncate ReplacerBot.encode_entities ReplacerBot.replace string: r.text }
+      search.map { |r| ReplacerBot.truncate ReplacerBot.title_case ReplacerBot.encode_entities ReplacerBot.replace string: r.text }
     end
 
     def tweet dry_run: false, chatty: false
