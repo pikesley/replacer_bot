@@ -49,6 +49,13 @@ module ReplacerBot
     string.gsub(/\n+/, ' ').gsub(/ +/, ' ').strip
   end
 
+  def self.title_case string
+    bits = string.split ''
+    bits[0] = bits[0].upcase
+
+    bits.join ''
+  end
+
   def self.truncate text
     return_text = ''
     text.split.each do |word|

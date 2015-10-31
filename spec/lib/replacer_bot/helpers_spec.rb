@@ -70,6 +70,10 @@ module ReplacerBot
         expect(ReplacerBot.despace " open\n\ndata  ").to eq 'open data'
       end
 
+      it 'upcases the first character' do
+        expect(ReplacerBot.title_case 'lowercase at the start').to eq 'Lowercase at the start'
+      end
+
       it 'trims to 140 characters nicely' do
         expect(ReplacerBot.truncate 'FYI via @DBMph: The 2016 proposed budget is now in Taylor Swift format! You may access it on our website: http://t.co/EO6Lep3PeW #Transparency').
           to eq 'FYI via @DBMph: The 2016 proposed budget is now in Taylor Swift format! You may access it on our website: http://t.co/EO6Lep3PeW'
