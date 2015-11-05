@@ -1,5 +1,6 @@
 search_term: open data
 search_count: 100
+language: en
 ignore_spaces: true
 save_file: last.tweet
 seen_tweets: seen.tweets

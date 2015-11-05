@@ -20,6 +20,10 @@ module ReplacerBot
         expect(replacer.search.first.text).to match /open ?data/i
         expect(replacer.search.all? { |tweet| tweet.text.match /open ?data/i }).to eq true
       end
+
+      it 'finds English tweets', :vcr do
+        expect(replacer.search.all? { |tweet| tweet.lang == 'en' }).to eq true
+      end
     end
 
     context 'save last tweet' do
@@ -29,7 +33,7 @@ module ReplacerBot
         replacer.save
         expect(File).to exist 'last.tweet'
 
-        expect(Marshal.load File.read 'last.tweet').to eq 632605951594524672
+        expect(Marshal.load File.read 'last.tweet').to eq 662228384039194624
       end
 
       it 'only saves if there is something to save', :vcr do
@@ -51,7 +55,7 @@ module ReplacerBot
           Marshal.dump 632591313607589889, f
         end
 
-        expect(replacer.search.count).to eq 2
+        expect(replacer.search.count).to eq 26
       end
     end
 
@@ -60,7 +64,7 @@ module ReplacerBot
 
       it 'filters similar tweets', :vcr do
         SeenTweets.validate 'How open data can help save lives http://t.co/90U7bVq5UF'
-        expect(replacer.tweets.count).to eq 16
+        expect(replacer.tweets.count).to eq 25
       end
     end
 
@@ -69,13 +73,13 @@ module ReplacerBot
 
       it 'prepares sensible tweets', :vcr do
         expect(replacer.tweets).to be_a Array
-        expect(replacer.tweets.first).to eq 'Taylor Swift Hackathon 6-7 октября'
-        expect(replacer.tweets[10]).to eq 'Lovely: "Does Taylor Swift Build Trust?" by @denicewross https://t.co/zcuOX6O8pA'
+        expect(replacer.tweets.first).to eq 'CamTaylorSwift have booked your place weeks Taylor Swift session central cambridge https jpwajua8qb'
+        expect(replacer.tweets[10]).to eq 'New #TaylorSwift book ed. by @leohavemann @jatenas https://t.co/umQvMtPm6W'
         expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
       end
 
       it 'actually sends tweets', :vcr do
-        expect(replacer.client).to(receive(:update)).exactly(16).times
+        expect(replacer.client).to(receive(:update)).exactly(26).times
         interval = replacer.config.interval
         replacer.config.interval = 0
         replacer.tweet
