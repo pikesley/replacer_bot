@@ -97,6 +97,15 @@ module ReplacerBot
                 {'Blockchain' => 'Beyoncé'}
               ]
             )
+
+            expect(ReplacerBot.replacement_caser 'cyber' => 'spider').
+              to eq(
+                [
+                  {'CYBER' => 'SPIDER'},
+                  {'cyber' => 'spider'},
+                  {'Cyber' => 'Spider'}
+                ]
+              )
       end
 
       it 'preserves case when replacing' do

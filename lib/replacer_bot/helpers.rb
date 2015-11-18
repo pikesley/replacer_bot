@@ -102,7 +102,7 @@ module ReplacerBot
     l = []
     l.push({replacement.first[0].upcase => replacement.first[1].upcase})
     l.push({replacement.first[0].downcase => replacement.first[1]})
-    l.push({replacement.first[0].titlecase => replacement.first[1]})
+    l.push({replacement.first[0].titlecase => replacement.first[1].titlecase})
 
     l.uniq
   end
