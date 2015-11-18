@@ -1,3 +1,16 @@
+class String
+  def titlecase
+    bits = self.split ''
+    bits[0] = UnicodeUtils.upcase(bits[0])
+
+    bits.join ''
+  end
+
+  def upcase
+    UnicodeUtils.upcase self
+  end
+end
+
 module ReplacerBot
   def self.encode term:
     URI.encode "\"#{term}\""
@@ -87,9 +100,9 @@ module ReplacerBot
 
   def self.replacement_caser replacement
     l = []
-    l.push({UnicodeUtils.upcase(replacement.first[0]) => UnicodeUtils.upcase(replacement.first[1])})
+    l.push({replacement.first[0].upcase => replacement.first[1].upcase})
     l.push({replacement.first[0].downcase => replacement.first[1]})
-    l.push({self.title_case(replacement.first[0]) => replacement.first[1]})
+    l.push({replacement.first[0].titlecase => replacement.first[1]})
 
     l.uniq
   end
