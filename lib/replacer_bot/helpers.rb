@@ -51,7 +51,7 @@ module ReplacerBot
 
   def self.title_case string
     bits = string.split ''
-    bits[0] = bits[0].upcase
+    bits[0] = UnicodeUtils.upcase(bits[0])
 
     bits.join ''
   end
@@ -85,6 +85,15 @@ module ReplacerBot
     'a'
   end
 
+  def self.replacement_caser replacement
+    l = []
+    l.push({UnicodeUtils.upcase(replacement.first[0]) => UnicodeUtils.upcase(replacement.first[1])})
+    l.push({replacement.first[0].downcase => replacement.first[1]})
+    l.push({self.title_case(replacement.first[0]) => replacement.first[1]})
+
+    l.uniq
+  end
+
   def self.replacement_extender replacement
     [
       replacement.map { |k, v| {"#{self.article k} #{k}" => "#{self.article v} #{v}"} }[0],
@@ -95,6 +104,15 @@ module ReplacerBot
   def self.replace string:, subs: Config.instance.config.replacements
     # Something about a frozen string
     our_string = string.dup
+    subs.map { |s| self.replacement_caser(s) }.flatten.each do |substitute|
+      (self.replacement_extender(substitute) << substitute).each do |s|
+        s.each do |search, replace|
+          our_string = self.despace our_string
+          our_string.gsub! /#{search}/, replace
+        end
+      end
+    end
+
     subs.each do |substitute|
       (self.replacement_extender(substitute) << substitute).each do |s|
         s.each do |search, replace|

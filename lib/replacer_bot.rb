@@ -5,6 +5,7 @@ require 'singleton'
 require 'thor'
 require 'yaml'
 require 'htmlentities'
+require 'unicode_utils/upcase'
 
 require 'replacer_bot/version'
 require 'replacer_bot/replacer'
@@ -16,4 +17,4 @@ require 'replacer_bot/twitter_client'
 Dotenv.load
 Dotenv.load "#{ENV['HOME']}/.replacer_botrc"
 
-TWITTER_LIMIT= 140
+TWITTER_LIMIT = 140

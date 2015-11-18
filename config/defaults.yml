@@ -5,7 +5,7 @@ ignore_spaces: true
 save_file: last.tweet
 seen_tweets: seen.tweets
 replacements:
-  - open data: Taylor Swift
+  - Open Data: Taylor Swift
   - opendata: TaylorSwift
 interval: 60 #seconds
 similarity_weighting: 4 # how many words a tweet must overlap already-seen tweets by for us to consider it 'similar'

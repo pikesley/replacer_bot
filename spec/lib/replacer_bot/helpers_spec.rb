@@ -79,9 +79,36 @@ module ReplacerBot
           to eq 'FYI via @DBMph: The 2016 proposed budget is now in Taylor Swift format! You may access it on our website: http://t.co/EO6Lep3PeW'
       end
 
+      it 'has case variants for replacements' do
+        expect(ReplacerBot.replacement_caser 'Open Data' => 'Taylor Swift').
+          to eq(
+            [
+              {'OPEN DATA' => 'TAYLOR SWIFT'},
+              {'open data' => 'Taylor Swift'},
+              {'Open Data' => 'Taylor Swift'}
+            ]
+          )
+
+          expect(ReplacerBot.replacement_caser 'blockchain' => 'Beyoncé').
+            to eq(
+              [
+                {'BLOCKCHAIN' => 'BEYONCÉ'},
+                {'blockchain' => 'Beyoncé'},
+                {'Blockchain' => 'Beyoncé'}
+              ]
+            )
+      end
+
+      it 'preserves case when replacing' do
+        expect(ReplacerBot.replace string: 'Open Data').to eq 'Taylor Swift'
+        expect(ReplacerBot.replace string: 'OPEN DATA').to eq 'TAYLOR SWIFT'
+        expect(ReplacerBot.replace string: 'OPEN DATA Open Data open data').to eq 'TAYLOR SWIFT Taylor Swift Taylor Swift'
+      end
+
       it 'replaces text' do
         expect(ReplacerBot.replace string: 'Something about Open Data goes here').to eq 'Something about Taylor Swift goes here'
         expect(ReplacerBot.replace string: 'Something about #opendata http://foo.bar/').to eq 'Something about #TaylorSwift http://foo.bar/'
+        expect(ReplacerBot.replace string: 'OPEN DATA things and an #OpenData hashtag and this OPen DatA').to eq 'TAYLOR SWIFT things and a #TaylorSwift hashtag and this Taylor Swift'
       end
 
       it 'does a/an correctly' do
