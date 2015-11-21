@@ -121,7 +121,7 @@ module ReplacerBot
       (self.replacement_extender(substitute) << substitute).each do |s|
         s.each do |search, replace|
           our_string = self.despace our_string
-          our_string.gsub! /#{search}/, replace
+          our_string.gsub! search, replace
         end
       end
     end
