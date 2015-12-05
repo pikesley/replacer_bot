@@ -116,5 +116,20 @@ module ReplacerBot
       expect(Marshal.load File.open Config.instance.config.seen_tweets).to include 1
       expect(Marshal.load File.open Config.instance.config.seen_tweets).to include 3
     end
+
+    it 'keeps a set to reasonable size' do
+      a = []
+      1010.times do |i|
+        a.push i
+      end
+      set = Set.new a
+
+      described_class.save set
+      expect(Marshal.load File.open Config.instance.config.seen_tweets).to be_a Set
+      expect(Marshal.load(File.open(Config.instance.config.seen_tweets)).count).to eq 1000
+      expect(Marshal.load File.open Config.instance.config.seen_tweets).to include 1000
+      expect(Marshal.load File.open Config.instance.config.seen_tweets).not_to include 0
+      expect(Marshal.load File.open Config.instance.config.seen_tweets).not_to include 9
+    end
   end
 end

@@ -75,9 +75,19 @@ module ReplacerBot
       nuke_hashtags clean_urls tweet
     end
 
+    def self.unshift set
+      a = set.to_a
+      max_size = Config.instance.config.max_seen_tweets
+      if a.count > max_size
+        a = a[-max_size..-1]
+      end
+
+      Set.new a
+    end
+
     def self.save set
       File.open Config.instance.config.seen_tweets, 'w' do |file|
-        Marshal.dump set, file
+        Marshal.dump unshift(set), file
       end
     end
   end
