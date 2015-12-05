@@ -4,6 +4,7 @@ language: en
 ignore_spaces: true
 save_file: last.tweet
 seen_tweets: seen.tweets
+max_seen_tweets: 1000
 replacements:
   - Open Data: Taylor Swift
   - opendata: TaylorSwift
