@@ -23,10 +23,10 @@ module ReplacerBot
         puts "Tweeting: #{tweet}" if chatty
         @client.update tweet unless dry_run
         unless dry_run
-          unless index == tweets.count - 1
+        #  unless index == tweets.count - 1
             puts "Sleeping #{@config.interval} seconds" if chatty
             sleep @config.interval
-          end
+        #  end
         end
       end
 
