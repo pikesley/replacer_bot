@@ -38,6 +38,7 @@ module ReplacerBot
   def self.validate string:, term: Config.instance.config.search_term, ignore_spaces: true
     return false if string[0...2] == 'RT'
     return false if string[0] == '@'
+    return false unless self.has_extra_terms(string: string)
 
     term = term.gsub ' ', ' ?' if ignore_spaces
     return true if string.index(/#{term}/i) && SeenTweets.validate(string)
@@ -48,6 +49,16 @@ module ReplacerBot
   def self.filter list:, ignore_spaces: true
     list.select { |i| self.validate string: i.text, term: Config.instance.config.search_term, ignore_spaces: ignore_spaces }.
       select { |i| i.id > self.last_tweet}
+  end
+
+  def self.has_extra_terms string:
+    return true unless Config.instance.config.extra_search_terms
+
+    Config.instance.config.extra_search_terms.each do |term|
+      return true if string.downcase.index term.downcase
+    end
+
+    false
   end
 
   def self.dehash word

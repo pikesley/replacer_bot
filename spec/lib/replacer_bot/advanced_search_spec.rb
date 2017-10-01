@@ -1,7 +1,8 @@
 module ReplacerBot
   describe Replacer do
     before :each do
-      Config.instance.config.search_term = "artificial intelligence"
+      Config.instance.config.search_term = "joe root"
+      Config.instance.config.extra_search_terms = [ "ashes", "england" ]
     end
 
     after :each do
@@ -22,12 +23,21 @@ module ReplacerBot
       end
 
       it 'finds the correct tweets', :vcr do
-        expect(replacer.search.first.text).to match /artificial intelligence/i
-        expect(replacer.search.all? { |tweet| tweet.text.match /artificial ?intelligence/i }).to eq true
+        expect(replacer.search.first.text).to match /joe root/i
+      #  expect(replacer.search.all? { |tweet| tweet.text.match /(detect|predict)/i }).to eq true
+      end
+    end
+
+    context 'search helper' do
+      it 'matches against extra search terms' do
+        Config.instance.config.extra_search_terms = [ "predict", "future" ]
+        expect(ReplacerBot.has_extra_terms string: "foo").to eq false
+        expect(ReplacerBot.has_extra_terms string: "foo in the future").to eq true
       end
 
-      it 'finds English tweets', :vcr do
-        expect(replacer.search.all? { |tweet| tweet.lang == 'en' }).to eq true
+      it 'does the right thing with no extra terms' do
+        Config.instance.config.extra_search_terms = nil
+        expect(ReplacerBot.has_extra_terms string: "foo").to eq true
       end
     end
   end
