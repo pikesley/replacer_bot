@@ -40,10 +40,11 @@ module ReplacerBot
     return false if string[0...2] == 'RT'
     return false if string[0] == '@'
 
-    return true if self.complex_search(string: term)
-
-    term = term.gsub ' ', ' ?' if ignore_spaces
+    unless self.complex_search(string: term)
+      term = term.gsub ' ', ' ?' if ignore_spaces
+    end
     return true if string.index(/#{term}/i) && SeenTweets.validate(string)
+    return true if self.complex_search(string: term)
 
     false
   end
