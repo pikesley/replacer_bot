@@ -53,8 +53,15 @@ module ReplacerBot
       it 'filters retweets' do
         expect(ReplacerBot.validate string: 'RT @xyz This is about Open Data').to eq false
       end
+
       it 'filters direct replies' do
         expect(ReplacerBot.validate string: '@abc This is a reply about Open Data').to eq false
+      end
+
+      it 'knows what a Complex Search is' do
+        expect(ReplacerBot.complex_search string: 'this OR that').to eq true
+        expect(ReplacerBot.complex_search string: 'this AND that').to eq true
+        expect(ReplacerBot.complex_search string: 'this, that').to eq false
       end
     end
 

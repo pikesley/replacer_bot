@@ -13,6 +13,7 @@ end
 
 module ReplacerBot
   def self.encode term:
+    return term if self.complex_search(string: term)
     URI.encode "\"#{term}\""
   end
 
@@ -39,8 +40,20 @@ module ReplacerBot
     return false if string[0...2] == 'RT'
     return false if string[0] == '@'
 
+    return true if self.complex_search(string: term)
+
     term = term.gsub ' ', ' ?' if ignore_spaces
     return true if string.index(/#{term}/i) && SeenTweets.validate(string)
+
+    false
+  end
+
+  def self.complex_search string:
+    ['OR', 'AND'].map do |word|
+      if string.index " #{word} "
+        return true
+      end
+    end
 
     false
   end
