@@ -1,3 +1,3 @@
 module ReplacerBot
-  VERSION = "0.0.16"
+  VERSION = "0.1.1-rc2"
 end
