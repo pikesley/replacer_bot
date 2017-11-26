@@ -17,4 +17,4 @@ require 'replacer_bot/twitter_client'
 Dotenv.load
 Dotenv.load "#{ENV['HOME']}/.replacer_botrc"
 
-TWITTER_LIMIT = 140
+TWITTER_LIMIT = 280

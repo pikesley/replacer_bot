@@ -75,7 +75,7 @@ module ReplacerBot
         expect(replacer.tweets).to be_a Array
         expect(replacer.tweets.first).to eq 'CamTaylorSwift have booked your place weeks Taylor Swift session central cambridge https jpwajua8qb'
         expect(replacer.tweets[10]).to eq 'New #TaylorSwift book ed. by @leohavemann @jatenas https://t.co/umQvMtPm6W'
-        expect(replacer.tweets.all? { |t| t.length <= 140} ).to eq true
+        expect(replacer.tweets.all? { |t| t.length <= 280} ).to eq true
       end
 
       it 'actually sends tweets', :vcr do
